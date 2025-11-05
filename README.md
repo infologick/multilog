@@ -8,7 +8,7 @@ This is a simplified integration of the Multilog's logging system (written in Pa
 </br>
 <h1 align="center">Why yet another «MultiLog»'s technical fork?</h1>
 
-Basically, it's the same as «MultiLog» (at 95%).</br>
+Basically, it's the same source code as as the «MultiLog» github originally forked (at 95%).</br>
 </br>
 The only technical difference is that this is a simplified integration of the logging.</br></br>
 This small transformation consists of a simplified integration of the logging mechanism of the logged messages. To summarize, originelle Multilog's TLogger class specifies the message's track on the both sides: on the side of its source reasons group and on the side of its target reasons group, each side associated with the tracked message. At the end, the original Multilog's TLogger class logs a said message if it's in the intersection of the both sides, the both groups. THE CLASS TIntegratedLogger HERE, IN THIS FORK, USES \ TACKLES ONLY ONE GROUP: the said group associated with the message. This group must be set \ modified before the logging call(s). Each modification of this group, is logged with the character °: so, I can follow where the messages association group is modified, has been modified. Another small change: the Class TFileChannel has been modified to be "thread safe", too. And it can indent the logged events by watching the ESP machine register's variation.
