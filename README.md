@@ -11,7 +11,7 @@ This is a simplified integration of the Multilog's logging system (written in Pa
 Basically, it's the same source code as the «MultiLog» github originally forked (at 95%).</br>
 </br>
 The only technical difference is that this is a simplified integration of the logging.</br></br>
-This small transformation consists of a simplified integration of the logging mechanism of the logged messages. To summarize, originelle Multilog's TLogger class specifies the message's track on the both sides: on the side of its source reasons group and on the side of its target reasons group, each side associated with the tracked message. At the end, the original Multilog's TLogger class logs a said message if it's in the intersection of the both sides, the both groups. THE CLASS TIntegratedLogger HERE, IN THIS FORK, USES \ TACKLES ONLY ONE GROUP: the said group associated with the message. This group must be set \ modified before the logging call(s). Each modification of this group, is logged with the character °: so, I can follow where the messages association group is modified, has been modified. Another small change: the Class TFileChannel has been modified to be "thread safe", too. And it can indent the logged events by watching the ESP machine register's variation.
+This small transformation consists of a simplified integration of the logging mechanism of the logged messages. To summarize, originelle Multilog's TLogger class specifies the message's track on the both sides: on the side of its source reasons group and on the side of its target reasons group, each side associated with the tracked message. At the end, the original Multilog's TLogger class logs a said message if it's in the intersection of the both sides, the both groups. THE CLASS TIntegratedLogger HERE, IN THIS FORK, USES \ TACKLES ONLY ONE GROUP: the said group associated with the message. This group must be set \ modified before the logging call(s). Each modification of this group, is logged with the character °: so, one can follow where the messages association group is modified, has been modified. Another small change: the Class TFileChannel has been modified to be "thread safe", too. And it can indent the logged events by watching the ESP machine register's variation.
   
 </br></br></br>
 <h3>Brief summmary of the processing of «MultiLog»:</h3>
@@ -29,14 +29,14 @@ The Class TIntegratedLogger has a group of methods in order to trace a program: 
 <b>Repeated again, MultiLog is composed of sets of methods (each set has its own signature meth*) to trace a program (WITHOUT the methDebug signature being an exception).</b></br>
 </br>
 <u>prerequisites ❸:</u></br>
-==> In TIntegratedLogger, there remains only 1 classification group - a dynamic group \ "set of: it is simply the filter that lists the ***effectively purposes***, the reasons (among all the preceding possible) associated with each TIntegratedLogger's logging method considered, explaining why one writes (actually and sub-sequentially) in the log (see TIntegratedLogger.FsetFilterDynamic_ofWhatCanBeEffectivelyLogged field).</br>
+==> In TIntegratedLogger, there remains only 1 classification group - a dynamic group, "set of": it's simply the filter that lists the ***effectively purposes***, the reasons (among all the preceding possible) associated with each TIntegratedLogger's logging method considered, explaining why one writes (actually and sub-sequentially) in the log (see TIntegratedLogger.FsetFilterDynamic_ofWhatCanBeEffectivelyLogged field).</br>
 
 </br></br></br>
 <h3>Global explanation:</h3>
 Now, a method - which carries an intrinsic signature named "meth*" - is chosen to log. Let's say a simple method: methInfo, methWarning, methError, ...</br>
 For which purpose(s), classification group(s)?</br> 
 At least, the simplest: lwInfo, or lwWarning, or lwError, or lwDebug.
-However, there can be several classification groups for the chosen method: (lwInfo, lwDebug), or (lwWarning, lwDebug), or (lwError, lwDebug). Or (lwInfo, lwDebug, lwIPC), or (lwWarning, lwDebug, lwIPC), or (lwError, lwDebug, lwIPC), and so on depending on how you analize things. 
+However, there can be several classification groups for the chosen method: (lwInfo, lwDebug), or (lwWarning, lwDebug), or (lwError, lwDebug). Or (lwInfo, lwDebug, lwIPC), or (lwWarning, lwDebug, lwIPC), or (lwError, lwDebug, lwIPC), and so on, depending on how you're analizing things. 
 You can define yours, in multi_user*.inc.
 Beware: a group like (lwInfo, lwWarning, lwError, lwDebug, lwIPC) seems unclear, for me anymay. It's up to you ^^.
 That's all there is to anderstand...
@@ -87,14 +87,14 @@ on a display medium (TMemo □, TFileText ○,TLogTreeView ▶) where it is disp
  
 </br></br></br>
 <h3> Other little modifications: </h3>
-• SQL Exceptions that inherit from EDatabaseError are all logged in their <b>own Log_SQL.txt</b>. Indeed, in an SQL application, the majority of errors are due to bad SQL statements, leading to subsequent normal Exceptions and errors. 
+• SQL Exceptions (that inherit from EDatabaseError) are all logged in their <b>own Log_SQL.txt</b>. Indeed, in an SQL application, the majority of errors are due to bad SQL statements, leading to subsequent normal Exceptions and errors. 
 You can customize your own SQL Exception retrievals, depending on your own (SQL Classes) hierarchy, which itself often depends on your database driver (SQLdb, IBX, Zeos, ...), in the file getdescriptionof_sql_exception_user.inc.</br>
 • The TFileText medium display is 'thread safe' (in the same way that TMemo was made 'thread safe') with a specialized Semaphore named a Critical section of code. It separates the descrition of SQL Exceptions from the others, each group in its own text file.</br>
 • TGroupOfForWhatReasonsToLogActually can be written to, read from, a variable in the ini configuration file. 
 This allows to imagine methods to activate - deactivate - a DEBUG mode, at run-time, at the client, for example.</br> 
 • added possibility, to see the reasons for each logging: such a log line was added for [lwDebug, lwInfo] reasons; such another line was written for [lwError, lwIPC] reasons; the last one is a simple [lwWarning]; etc.</br> 
 • As previously stated, the text file medium can indent the logged entangled events by watching the ESP machine register's variation. 
-What's for? With linked components in a chain of responsabilities (like TDbGrid<->TDataSource<->TDataSet), wich themselves have chained events inside them, it is sometimes easier to code a single line in all existing events (mentionning the parameters that can be used or even changed there) in order to anderstand the movies of contextual events, and to study where whe have to code what:
+What's for? With linked components in a chain of responsabilities (like TDbGrid←→TDataSource←→TDataSet), wich themselves have chained events inside them, it is sometimes easier to code a single line in all existing events (mentionning the parameters that can be used or even changed there) in order to anderstand the movies of contextual events, and to study where whe have to code what:
 
 ![multilog_doc/overwiewFiles/autoMultiLog_IndentedEBP.png](https://github.com/devEric69/multilog/blob/master/multilog_doc/overwiewFiles/autoMultiLog_IndentedEBP.png)</br>
 <i>↗ The "movie"\film of events, events displayed\indented according to the depth of their call stack through the ESP machine register's variation.</i>
